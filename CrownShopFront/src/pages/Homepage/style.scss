@@ -1,0 +1,27 @@
+._about-us{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: 2% 20% 2% 20%;
+    //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    h2, p {
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+        color: white
+    }
+
+    ._minus{
+        margin-bottom: -20px;
+        color: #ffea80;
+    }
+    ._motto{
+        font-weight: bold;
+        text-transform: uppercase;
+        font-family: 'Rubik', sans-serif;
+        margin-top: 2%;
+    }
+}

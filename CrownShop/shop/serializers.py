@@ -4,13 +4,17 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    model = User
-    fields = ('username', 'first_name', 'last_name', 'email')
+
+    class Meta:
+        model = User
+        fields = ['username', 'password'] 
+
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 
     token = serializers.SerializerMethodField()
-    password = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
 
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -30,4 +34,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'first_name', 'password')
+        fields = ('token', 'username', 'password1')

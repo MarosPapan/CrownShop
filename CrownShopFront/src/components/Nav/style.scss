@@ -1,0 +1,37 @@
+._navbar{
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    background-color: #000000;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    margin: 0;
+
+
+    ._navbar-child{
+        font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;;
+        order: 0;
+        flex: 0 1 auto;
+        align-self: auto;
+        list-style: none;
+        text-decoration: none;
+        margin: 0 20px 0 20px;
+        cursor: pointer;
+
+        ._remove-decoration-a{
+            text-decoration: none;
+            color: #ffffff;
+        }
+    }
+
+    ._homepage-link{
+        padding: 0 10px 0 10px;
+    }
+}

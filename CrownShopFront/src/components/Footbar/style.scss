@@ -1,0 +1,15 @@
+.footbar{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-content: stretch;
+    align-items: stretch;
+    width: 100%;
+    background-color: #000000;
+    color: white;
+    ._footer-child{
+        margin: 20px;
+        text-align: center;
+    }
+}

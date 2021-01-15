@@ -445,12 +445,14 @@ class RequestRefundView(View):
 def current_user(request):
     serialzer = UserSerializer(request.user)
     return Response(serialzer.data)
+
+
 class UserList(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serialzer = UserSerializerWithToken(data=request.data)
-        if serialzer.is_valid():
+        serializer = UserSerializerWithToken(data=request.data)
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATEED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

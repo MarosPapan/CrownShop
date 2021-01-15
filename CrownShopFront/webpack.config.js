@@ -6,7 +6,8 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   plugins: [new HtmlWebpackPlugin({
     template: path.resolve( __dirname, 'src/index.html' ),
@@ -19,6 +20,7 @@ module.exports = {
     port: 3000,
     hot:true,
     liveReload:true,
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [ ".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -39,6 +41,33 @@ module: {
           },
         },
       },
+      {
+        test: /\.(css|scss)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        use: {
+          loader: 'url-loader',
+        },
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
+      {
+        test: [/\.eot$/, /\.ttf$/, /\.woff$/, /\.woff2$/],
+        use: {
+          loader: 'file-loader'
+        },
+      }
   ]
 }
 };
