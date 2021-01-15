@@ -6,33 +6,29 @@ import {
 } from "./api";
 
 import {
-    INIT_CREATE_USER,
-} from './constants';
-
-
-import {
-    createUserSuccessAction,
-    createUserErrorAction,
-} from './actions'
+    createUserInit,
+    createUserSuccess,
+    createUserError,
+} from './signUpUserSlice';
 
 
 function* signUpSaga(action){
-    const signupData = _.get(action, 'signupData', null);
+    const signupData = _.get(action, 'payload', null);
     let payload = null; 
 
     try{
         payload = yield call(handle_signup_api, signupData);
     }
     catch(error){
-        yield put(createUserErrorAction(error));
+        yield put(createUserError(error));
         return null;
     }
 
-    yield put(createUserSuccessAction(payload));
+    yield put(createUserSuccess(payload));
 
 };
 
 
 export default function* authenticationSaga(){
-    yield takeLatest(INIT_CREATE_USER, signUpSaga);
+    yield takeLatest(createUserInit, signUpSaga);
 };

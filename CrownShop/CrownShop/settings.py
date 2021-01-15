@@ -165,7 +165,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'CrownShop.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'CrownShop.utils.my_jwt_response_handler',
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

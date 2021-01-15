@@ -1,10 +1,10 @@
 //@ts-nocheck
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {
-    createUserInitAction
-} from './actions'
+    createUserInit
+} from './signUpUserSlice'
 
 import './style.scss';
 import '../../bootstrap/css/bootstrap.min.css';
@@ -29,8 +29,7 @@ const SignupForm: React.FunctionComponent = () => {
 
     const handle_signup = (e, data) => {
 		e.preventDefault();
-        console.log("Signup data: ",data);
-        dispatch(createUserInitAction(data));
+        dispatch(createUserInit(data));
         history.push("/login");
 	};
 

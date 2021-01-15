@@ -28,7 +28,7 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {loading, loaded, data, error} = useSelector(state => state.products);
-  const {isLoggedIn} = useSelector(state => state.userInf);
+  const {logged} = useSelector(state => state.login);
 
 
   const handleOnLoginCart = () => {
@@ -77,7 +77,7 @@ const ProductList = () => {
                 </Item.Meta>
                 <Item.Description>{item.description}</Item.Description>
                 <Item.Extra>
-                  {isLoggedIn ? (
+                  {logged ? (
                   <Button 
                     primary 
                     floated='right' 

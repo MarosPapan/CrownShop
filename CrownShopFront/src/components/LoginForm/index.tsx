@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import {
-    loginUserInitAction
-} from './actions';
-import { userLoggedInSuccess } from '../../App/userInfReducer';
+
+import { userLogInInit } from './logInUserSlice';
 import { getCartItemsStart } from '../Cart/getCartItemsSlice';
 
 import './style.scss';
@@ -30,8 +28,7 @@ const LoginForm = (props) => {
     const handleLogin = (e, data) => {
         e.preventDefault();
         console.log("LOGIN DATA: ", data);
-        dispatch(loginUserInitAction(data));
-        dispatch(userLoggedInSuccess(data.username));
+        dispatch(userLogInInit(data));
         history.push("/");
         
     };

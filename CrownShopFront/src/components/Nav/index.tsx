@@ -7,18 +7,14 @@ import {
     Link,
  } from "react-router-dom";
 
- import { userLoggedInFail } from '../../App/userInfReducer';
+ import { userLogOut } from '../../components/LoginForm/logInUserSlice';
  import { 
-    Button, 
-    Container, 
-    Icon, 
-    Image, 
+    Icon,
+    Dropdown, 
+    Menu, 
+    Divider,
     Item, 
-    Label, 
-    Dimmer, 
-    Segment, 
-    Loader, 
-    Message 
+    Header,
   } from 'semantic-ui-react';
 import crown from '../../assets/images/crown.svg';
 import "./style.scss";
@@ -32,13 +28,13 @@ const Nav = (props) => {
 
 	const handle_logout = () => {
         localStorage.removeItem('token');
-        dispatch(userLoggedInFail());
+        dispatch(userLogOut());
         console.log("Logged out")
     };
     
-    const {isLoggedIn} = useSelector(state => state.userInf);
-    const {username} = useSelector(state => state.userInf);
-    console.log("If user is logged in: ", )
+    const username = useSelector(state => state.login.data.user);
+    const {logged} = useSelector(state => state.login);
+    const {loading} = useSelector(state => state.cart);
 
     return (
         <ul className="_navbar">
@@ -46,11 +42,15 @@ const Nav = (props) => {
             <li className="_navbar-child">
                 <Link className="_remove-decoration-a" to='/#'>ABOUT US</Link>
             </li>
-
-            <li className="_navbar-child">
-                <Link className="_remove-decoration-a" to='/#'>CONTACT US</Link>
-            </li>
-
+            <>
+                {logged ? (
+                    <>
+                    <li className="_navbar-child">
+                        <Link className="_remove-decoration-a" to='/#'>CONTACT US</Link>
+                    </li>
+                    </>
+                ) : null}
+            </>
             <li className="_navbar-child">
                 <Link className="_remove-decoration-a" to='/shop'>SHOP</Link>
             </li>
@@ -59,10 +59,37 @@ const Nav = (props) => {
                 <Link className="_remove-decoration-a" to="/"><img src={crown} alt="Logo of website crown"/></Link>
             </li>
             <>
-                {isLoggedIn ? (
+                {logged ? (
                     <>
-                        <li className="_navbar-child nav-link disabled">{username}</li>
+                        <li className="_navbar-child nav-link disabled">??</li>
                         <li className="_navbar-child" onClick={handle_logout}>LOGOUT</li>
+                        <li className="_navbar-child homepage-link">
+                        <Menu.Menu position='right'>
+                            <Dropdown
+                                icon='shopping cart'
+                                loading={loading} 
+                                text={`${cart !== null ? cart.order_items.length : 0} -> `} 
+                                pointing 
+                                className='link item'
+                            >
+                            <Dropdown.Menu>
+                                {cart && cart.order_items.map(order_item => {
+                                    return (
+                                    <Dropdown.Item key={order_item.id}>
+                                        {order_item.quantity} x {order_item.item}
+                                    </Dropdown.Item> 
+                                );
+                                })}
+                                {cart && cart.order_items.length < 1 ? (
+                                    <Dropdown.Item>No items in your cart</Dropdown.Item>
+                                ) : null}
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="arrow right" text="Checkout">
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Menu>
+                    </li>
                     </>
                 ): (
                     <>
@@ -76,9 +103,6 @@ const Nav = (props) => {
                     </>
                 )}
             </>
-            <li className="_navbar-child homepage-link">
-                <Link className="_remove-decoration-a" to="/"><Icon name='shopping cart' /></Link>
-            </li>
         </ul>
     );
 };

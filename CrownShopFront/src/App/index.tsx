@@ -16,29 +16,28 @@ import Homepage from "../pages/Homepage";
 import Footbar from "../components/Footbar";
 import Shop from "../pages/Shop";
 
-import { userGetInit } from './getUserReducer';
-import { userLoggedInFail, userLoggedInSuccess } from './userInfReducer';
+import { userGetInit } from '../components/LoginForm/logInUserSlice';
 import { getCartItemsStart } from '../components/Cart/getCartItemsSlice';
 
 import "./style.scss"
 
 const App: React.FunctionComponent = () => {
 	const dispatch = useDispatch();
-	const {isLoggedIn} = useSelector(state => state.userInf);
 
 	const loggedIn = localStorage.getItem('token');
+	const {logged} = useSelector(state => state.login);
 
 	useEffect(() => {
 		if(loggedIn){
 			dispatch(userGetInit());
 		}
-	}, [userLoggedInSuccess, isLoggedIn, dispatch]);
+	}, []);
 
 	useEffect(() => {
-		if(isLoggedIn){
+		if(loggedIn){
 			dispatch(getCartItemsStart());
-		}
-	}, [isLoggedIn]);
+		};
+	}, [logged]);
 
 	return(
 		<Router>

@@ -3,21 +3,19 @@ import _ from 'lodash';
 
 import {
     handle_login_api,
+    getUserApi
 } from "./api";
 
 import {
-    INIT_LOGIN_USER,
-} from './constants';
-
-
-import {
-    loginUserSuccessAction,
-    loginUserErrorAction,
-} from './actions'
+    userLogInSuccess,
+    userLogInError,
+    userLogInInit,
+    userGetInit
+} from './logInUserSlice';
 
 
 function* loginWorkerSaga(action){
-    const loginData = _.get(action, 'loginData', null);
+    const loginData = _.get(action, 'payload', null);
     console.log("DATA IN LOGIN SAGA: ", loginData);
     let payload = null; 
 
@@ -25,15 +23,32 @@ function* loginWorkerSaga(action){
         payload = yield call(handle_login_api, loginData);
     }
     catch(error){
-        yield put(loginUserErrorAction(error));
+        yield put(userLogInError(error));
         return null;
     }
 
-    yield put(loginUserSuccessAction(payload));
+    yield put(userLogInSuccess(payload));
 
 };
 
 
+function* getUserWorkerSaga(action){
+    let payload = null;
+
+    try{
+        payload = yield call(getUserApi);
+    }
+    catch(error){
+        localStorage.removeItem('token');
+        console.log("ERROR YOUR USER IS NOT LOGGEDIN");
+        yield put(userLogInError(error));
+        return null;
+    }
+
+    yield put(userLogInSuccess(payload));
+};
+
 export default function* loginWatcherSaga(){
-    yield takeLatest(INIT_LOGIN_USER, loginWorkerSaga);
+    yield takeLatest(userLogInInit, loginWorkerSaga);
+    yield takeLatest(userGetInit, getUserWorkerSaga);
 };
