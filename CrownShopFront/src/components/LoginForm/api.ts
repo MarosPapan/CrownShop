@@ -16,11 +16,9 @@ export const handle_login_api = (data) => {
         })
         .then((response) => {
             localStorage.setItem('token', response.data.token);
-            console.log("This is response in LOGIN: ", response.data);
             return resolve(response.data);
         })
         .catch((error) => {
-            console.log("This is error in LOGIN: ", error);
             return reject(error);
         });
     });
@@ -37,7 +35,6 @@ export const getUserApi = () => {
             },
         })
         .then((response) => {
-            console.log("THIS IS RESPONSE IN GETUSER API -->: ", response)
             return resolve(response.data)
         })
         .catch((error) => {

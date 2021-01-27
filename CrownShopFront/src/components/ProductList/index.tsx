@@ -23,11 +23,15 @@ import {
   addToCartStart,
  } from "./addToCartSlice";
 
+import { getCartItemsStart } from "../Cart/getCartItemsSlice";
+
 const ProductList = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const {loading, loaded, data, error} = useSelector(state => state.products);
+
+  const {loading, data, error} = useSelector(state => state.products);
+  const {added} = useSelector(state => state.addToCart);
   const {logged} = useSelector(state => state.login);
 
 
@@ -36,13 +40,19 @@ const ProductList = () => {
   };
 
   const handleAddToCart = (slug) => {
-    console.log("This is slug of an item: ", slug);
-    dispatch(addToCartStart(slug))
+    dispatch(addToCartStart(slug));
   }
 
   useEffect(() => {
+    console.log(history);
     dispatch(getProductsInit());
   }, [])
+
+  useEffect(() => {
+    if(logged){
+      dispatch(getCartItemsStart());
+    }
+  }, [added])
 
   return(
   <Container>
@@ -99,7 +109,7 @@ const ProductList = () => {
                     <Icon name='user' />
                   </Button>
                   )}
-                  {item.discount_price && <Label>{item.label}</Label>}
+                  {item.discount_price && <Label>DISCOUNT</Label>}
                 </Item.Extra>
               </Item.Content>
             </Item>

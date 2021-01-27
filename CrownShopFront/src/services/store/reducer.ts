@@ -5,6 +5,7 @@ import logInUserSlice from '../../components/LoginForm/logInUserSlice';
 import getProductsSlice from '../../components/ProductList/getProductsSlice';
 import addToCartSlice from '../../components/ProductList/addToCartSlice';
 import getCartItemsSlice from "../../components/Cart/getCartItemsSlice";
+import paymentSlice from "../../pages/Payment/paymentSlice";
 
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     products: getProductsSlice,
     addToCart: addToCartSlice,
     cart: getCartItemsSlice,
+    payment: paymentSlice,
 });
 
 export default rootReducer;

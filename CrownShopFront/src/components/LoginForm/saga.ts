@@ -16,7 +16,6 @@ import {
 
 function* loginWorkerSaga(action){
     const loginData = _.get(action, 'payload', null);
-    console.log("DATA IN LOGIN SAGA: ", loginData);
     let payload = null; 
 
     try{
@@ -40,7 +39,6 @@ function* getUserWorkerSaga(action){
     }
     catch(error){
         localStorage.removeItem('token');
-        console.log("ERROR YOUR USER IS NOT LOGGEDIN");
         yield put(userLogInError(error));
         return null;
     }

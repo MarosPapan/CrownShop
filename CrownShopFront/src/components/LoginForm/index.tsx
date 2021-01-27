@@ -27,7 +27,6 @@ const LoginForm = (props) => {
 
     const handleLogin = (e, data) => {
         e.preventDefault();
-        console.log("LOGIN DATA: ", data);
         dispatch(userLogInInit(data));
         history.push("/");
         

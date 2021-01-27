@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { 
     BrowserRouter as Router,
     Link,
+    useHistory
  } from "react-router-dom";
 
  import { userLogOut } from '../../components/LoginForm/logInUserSlice';
@@ -23,7 +24,9 @@ import '../../bootstrap/css/bootstrap.min.css';
 
 
 const Nav = (props) => {
+
     const dispatch = useDispatch();
+    const history = useHistory();
     const {cart} = useSelector(state => state.cart);
 
 	const handle_logout = () => {
@@ -68,7 +71,7 @@ const Nav = (props) => {
                             <Dropdown
                                 icon='shopping cart'
                                 loading={loading} 
-                                text={`${cart !== null ? cart.order_items.length : 0} -> `} 
+                                text={`${cart !== null ? cart.order_items.length : 0}`} 
                                 pointing 
                                 className='link item'
                             >
@@ -84,8 +87,7 @@ const Nav = (props) => {
                                     <Dropdown.Item>No items in your cart</Dropdown.Item>
                                 ) : null}
                                 <Dropdown.Divider />
-                                <Dropdown.Item icon="arrow right" text="Checkout">
-                                </Dropdown.Item>
+                                <Dropdown.Item icon="arrow right" text="Checkout" onClick={() => {history.push("/checkout")}}/>
                             </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Menu>

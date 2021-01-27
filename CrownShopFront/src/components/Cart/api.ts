@@ -14,7 +14,6 @@ export const getCartItemsApi = () => {
             }, 
         })
         .then((response) => {
-            console.log('GET CART ITEMS API: ', response.data);
             return resolve(response.data);
         })
         .catch((error) => {
