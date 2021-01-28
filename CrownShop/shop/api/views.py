@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 from django.utils import timezone
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView 
@@ -63,9 +64,8 @@ class OrderDetailView(RetrieveAPIView):
             order = Order.objects.get(user=self.request.user, ordered=False)
             return order
         except ObjectDoesNotExist: 
-            return Response({"messege": "You do not have an active order"})
-            #return Response({"messege": "You do not have an active order"}, status=HTTP_400_BAD_REQUEST)
-
+            raise Http404("You do not have active order")
+    
 class PaymentView(APIView): 
 
     def post(self, request, *args, **kwargs):
@@ -73,7 +73,6 @@ class PaymentView(APIView):
         # userprofile = UserProfile.objects.get(user=self.request.user)
         token = request.data.get('stripeToken')
         print('STRIPE TOKEN: ', token)
-        # print(f'TOKEN: {token}') 
         amount = int(order.get_total() * 100)
 
         
@@ -152,3 +151,18 @@ class PaymentView(APIView):
             return Response({"message": "A serious error occurred. We have been notifed."}, status=HTTP_400_BAD_REQUEST)
 
         return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
+
+
+class AddCoupon(APIView):
+    def post(self, *args, **kwargs):
+        code = self.request.data.get('code', None)
+
+        print(f'This is a COUPON {code}')
+
+        if code is None: 
+            return Response({"message": "Invalid data"}, status=HTTP_400_BAD_REQUEST)
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        coupon = get_object_or_404(Coupon, code=code)
+        order.coupon = coupon
+        order.save()
+        return Response(status=HTTP_200_OK)

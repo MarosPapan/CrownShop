@@ -3,7 +3,8 @@ from .views import (
     ItemListView,
     AddToCartView,
     OrderDetailView,
-    PaymentView,   
+    PaymentView,
+    AddCoupon   
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('add-to-cart/', AddToCartView.as_view(), name='add-to-cart'),
     path('order-summary/', OrderDetailView.as_view(), name='order-summary'),
     path('payment/', PaymentView.as_view(), name='payment'),
+    path('add-coupon/', AddCoupon.as_view(), name='add-coupon'),
 ]

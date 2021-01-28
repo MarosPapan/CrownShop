@@ -30,6 +30,12 @@ const getCartItemsSlice = createSlice({
             state.cart = null;
             state.error = payload;
         },
+        getCartItems404: (state, {payload}) => {
+            state.loading = false;
+            state.loaded = false;
+            state.cart = null;
+            state.error = "You do not have any active order";
+        }, 
     }
 });
 
@@ -37,6 +43,7 @@ export const {
     getCartItemsStart,
     getCartItemsSuccess, 
     getCartItemsError,
+    getCartItems404,
 } = getCartItemsSlice.actions
 
 export default getCartItemsSlice.reducer; 

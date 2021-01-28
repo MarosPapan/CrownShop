@@ -6,6 +6,7 @@ import loginWatcherSaga from '../../components/LoginForm/saga';
 import ProductsWatcherSaga from '../../components/ProductList/saga';
 import CartWatcherSaga from "../../components/Cart/saga";
 import paymentWatcherSaga from "../../pages/Payment/saga";
+import addCouponWatcherSaga from '../../components/CouponForm/saga';
 
 function* rootSaga(){
     yield all([
@@ -14,7 +15,8 @@ function* rootSaga(){
         ProductsWatcherSaga(),
         CartWatcherSaga(),
         paymentWatcherSaga(),
+        addCouponWatcherSaga(),
     ]);
-}
+};
 
 export default rootSaga;

@@ -8,6 +8,7 @@ import {
     getCartItemsStart,
     getCartItemsSuccess,
     getCartItemsError,
+    getCartItems404
 } from './getCartItemsSlice';
 
 
@@ -17,8 +18,14 @@ function* getCartItemsSaga(){
         payload = yield call(getCartItemsApi);
     }
     catch(error){
-        yield put(getCartItemsError(error));
-        return null;
+        if(error.response.status === 404){
+            yield put(getCartItems404());
+            console.log("ERR RESPONSE IN GET CART ITEMS: ", error.response);
+        }
+        else{
+            yield put(getCartItemsError(error));
+            return null;
+        }
     }
     yield put(getCartItemsSuccess(payload));
 };

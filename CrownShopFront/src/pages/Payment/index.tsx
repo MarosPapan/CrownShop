@@ -1,21 +1,93 @@
 //@ts-nocheck
 import React, { Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Elements, 
     CardElement,  
     useElements, 
-    useStripe 
+    useStripe, 
 } from '@stripe/react-stripe-js';
-import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import CouponForm from '../../components/CouponForm'
 
 import { paymentInit } from './paymentSlice';
 
 import {
     Message,  
     Container,
-    Button
+    Button,
+    Item,
+    Divider,
+    Header,
+    Loader,
+    Segment,
+    Dimmer, 
+    Image,
+    Icon,
+    Label,
   } from 'semantic-ui-react';
+import CartWatcherSaga from 'components/Cart/saga';
+
+
+const OrderPrewiev = () => {
+
+    const { cart, loading, loaded, error } = useSelector(state => state.cart)
+
+    return(
+        <div>
+            {loading && (
+                 <Segment>
+                 <Dimmer active inverted>
+                   <Loader inverted content='Loading' />
+                 </Dimmer>
+           
+                 <Image src='' />
+               </Segment>
+            )}
+            {loaded && (
+                <>
+                    {cart.order_items.map((order_item, i)=> {
+                        return(
+                            <Item.Group relaxed key={order_item.id}>
+                                <Item>
+                                <Item.Image size='tiny' src={`http://127.0.0.1:8000${order_item.item_obj.image}`}/>
+
+                                <Item.Content verticalAlign='middle'>
+                                    <Item.Header as='a'>
+                                        {order_item.item_obj.title}
+                                    </Item.Header>
+                                    <Item.Extra>
+                                        <Button primary floated="right">
+                                        quantity: {order_item.quantity}x
+                                        </Button>
+                                        <Label>${order_item.final_price }</Label>
+                                    </Item.Extra>
+                                </Item.Content>
+                                </Item>
+
+                            </Item.Group>
+                        )
+                    })}
+
+                    <Item.Group>
+                        <Item>
+                            <Item.Content>
+                                <Item.Header>Order Total: ${cart.total}
+                                {cart.coupon && (
+                                    <Label color="green" style={{marginLeft: '10px'}}>
+                                        Current coupon: {cart.coupon.code} for {cart.coupon.amount}
+                                    </Label>
+                                )}
+                                </Item.Header>
+                            </Item.Content>
+                        </Item>
+                    </Item.Group>
+                </>
+            )}
+        </div>
+    )
+};
 
 const Payment = () => {
 
@@ -25,6 +97,7 @@ const Payment = () => {
     const elements = useElements();
 
     const {error, loading, success} = useSelector(state => state.payment);
+    const {cart} = useSelector(state => state.cart);
 
     const handleOnPay = async (event) => {
         event.preventDefault();
@@ -49,7 +122,11 @@ const Payment = () => {
                         <p>See your order status</p>
                   </Message>
                 )}
-                <h2>Complete your order</h2>
+
+                <OrderPrewiev/>
+                <Divider></Divider>
+                <CouponForm/>
+                <Header>Complete your order</Header>
                 <form onSubmit={handleOnPay}>
                     <CardElement 
                         options={{

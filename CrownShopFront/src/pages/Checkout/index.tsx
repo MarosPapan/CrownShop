@@ -8,21 +8,24 @@ import {
     Container, 
     Icon, 
     Image, 
-    Item, 
     Label, 
-    Menu,
     Table,
-    Header, 
+    Header,
+    Message,
+    Segment,
+    Dimmer,
+    Loader 
   } from 'semantic-ui-react';
 
 import './style.scss';
+
 
 const Checkout = (props) => {
 
     const history = useHistory();
 
-    const {cart} = useSelector(state => state.cart);
     const {logged} = useSelector(state => state.login);
+    const {cart, error, loaded, loading} = useSelector(state => state.cart)
 
     const handle_checkout = () => {
         history.push('/payment');
@@ -32,7 +35,24 @@ const Checkout = (props) => {
         <div className="_checkout">
             <Container>
             <Header as="h2">Checkout</Header>
-            <Table celled>
+            {cart == null && (
+            <Message
+                warning
+                header="You don't have active order"
+                content="Go back shopping :)"
+            />
+            )}
+            {loading && (
+            <Segment>
+                <Dimmer active inverted>
+                <Loader inverted>Loading</Loader>
+                </Dimmer>
+
+                <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+            </Segment>
+            )}
+            {cart && (
+                <Table celled>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Item #</Table.HeaderCell>
@@ -48,7 +68,7 @@ const Checkout = (props) => {
                         return (
                             <Table.Row key={order_item.id}>
                                 <Table.Cell>
-                                    {i}
+                                    {i + 1}
                                 </Table.Cell>
                                 <Table.Cell>{order_item.item}</Table.Cell>
                                 <Table.Cell>${order_item.item_obj.price}</Table.Cell>
@@ -80,6 +100,7 @@ const Checkout = (props) => {
                     </Table.Row>
                 </Table.Footer>
             </Table>
+            )}
             </Container>
         </div>
     );

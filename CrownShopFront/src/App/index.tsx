@@ -34,6 +34,7 @@ const App: React.FunctionComponent = () => {
 
 	const loggedIn = localStorage.getItem('token');
 	const {logged} = useSelector(state => state.login);
+	const {sended} = useSelector(state => state.coupon);
 
 	useEffect(() => {
 		if(loggedIn){
@@ -45,7 +46,7 @@ const App: React.FunctionComponent = () => {
 		if(logged){
 			dispatch(getCartItemsStart());
 		};
-	}, [logged]);
+	}, [logged, sended]);
 
 	return(
 		<Router>
