@@ -27,6 +27,14 @@ const Checkout = (props) => {
     const {logged} = useSelector(state => state.login);
     const {cart, error, loaded, loading} = useSelector(state => state.cart)
 
+    const renderVariations = ordertItem => {
+        let text = '';
+        ordertItem.item_variations.forEach(iv => {
+            text += `${iv.variation.name}: ${iv.value}, `
+        });
+        return text;
+    }
+
     const handle_checkout = () => {
         history.push('/payment');
     };
@@ -70,11 +78,11 @@ const Checkout = (props) => {
                                 <Table.Cell>
                                     {i + 1}
                                 </Table.Cell>
-                                <Table.Cell>{order_item.item}</Table.Cell>
-                                <Table.Cell>${order_item.item_obj.price}</Table.Cell>
+                                <Table.Cell>{order_item.item.title} - {renderVariations(order_item)}</Table.Cell>
+                                <Table.Cell>${order_item.item.price}</Table.Cell>
                                 <Table.Cell>{order_item.quantity}</Table.Cell>
                                 <Table.Cell>
-                                    {order_item.item_obj.discount_price && (
+                                    {order_item.item.discount_price && (
                                         <Label color="green" ribbon>On Discount</Label>
                                     )}
                                     ${order_item.final_price}

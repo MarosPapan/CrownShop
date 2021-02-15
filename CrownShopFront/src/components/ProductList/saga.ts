@@ -35,6 +35,7 @@ function* getProductsWorkerSaga(){
 
 function* addToCartWorkerSaga(action){
     const slug = _.get(action, 'payload', null);
+    console.log("Payload: ", slug);
     let payload = null 
 
     try{

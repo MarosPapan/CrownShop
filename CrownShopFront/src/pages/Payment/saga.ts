@@ -13,7 +13,6 @@ import {
 
 function* paymentWorkerSaga(action){
     const token = _.get(action, 'payload', null);
-    //console.log("This is token in PAYMENT SAGA: ", token);
     let payload = null; 
 
     try{
@@ -23,7 +22,6 @@ function* paymentWorkerSaga(action){
         yield put(paymentError(error));
         return null;
     }
-    console.log("PAYLOAD IN API: ", payload)
     yield put(paymentSuccess(payload));
 };
 

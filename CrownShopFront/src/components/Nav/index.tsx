@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { getUser } from 'App/api';
 import React, {Fragment} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
     BrowserRouter as Router,
     Link,
-    useHistory
+    useHistory,
+    userRouteMatch
  } from "react-router-dom";
 
  import { userLogOut } from '../../components/LoginForm/logInUserSlice';
@@ -55,7 +55,7 @@ const Nav = (props) => {
                 ) : null}
             </>
             <li className="_navbar-child">
-                <Link className="_remove-decoration-a" to='/shop'>SHOP</Link>
+                <Link className="_remove-decoration-a" to='/products'>SHOP</Link>
             </li>
 
             <li className="_navbar-child homepage-link">
@@ -66,7 +66,10 @@ const Nav = (props) => {
                     <>
                         <li className="_navbar-child nav-link disabled">??</li>
                         <li className="_navbar-child" onClick={handle_logout}>LOGOUT</li>
-                        <li className="_navbar-child homepage-link">
+                        <li className="_navbar-child">
+                            <Link className="_remove-decoration-a" to="/profile">PROFILE</Link>
+                        </li>
+                        <li>
                         <Menu.Menu position='right'>
                             <Dropdown
                                 icon='shopping cart'
@@ -79,7 +82,7 @@ const Nav = (props) => {
                                 {cart && cart.order_items.map(order_item => {
                                     return (
                                     <Dropdown.Item key={order_item.id}>
-                                        {order_item.quantity} x {order_item.item}
+                                        {order_item.quantity} x {order_item.item.title}
                                     </Dropdown.Item> 
                                 );
                                 })}
@@ -91,7 +94,7 @@ const Nav = (props) => {
                             </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Menu>
-                    </li>
+                        </li>
                     </>
                 ): (
                     <>

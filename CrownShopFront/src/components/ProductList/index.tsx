@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch, useParams } from 'react-router-dom';
 import { 
   Button, 
   Container, 
@@ -12,7 +12,8 @@ import {
   Dimmer, 
   Segment, 
   Loader, 
-  Message 
+  Message, 
+  Header, 
 } from 'semantic-ui-react';
 
 import { 
@@ -27,6 +28,7 @@ import { getCartItemsStart } from "../Cart/getCartItemsSlice";
 
 const ProductList = () => {
 
+  const { url, path } = useRouteMatch();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,11 +42,12 @@ const ProductList = () => {
   };
 
   const handleAddToCart = (slug) => {
-    dispatch(addToCartStart(slug));
+    console.log("Add to cart function: ", addToCartStart(slug));
+    // dispatch(addToCartStart(slug));
   }
 
   useEffect(() => {
-    console.log(history);
+    console.log("This is URL", url, path)
     dispatch(getProductsInit());
   }, [])
 
@@ -81,23 +84,17 @@ const ProductList = () => {
               <Item.Image src={item.image} />
         
               <Item.Content>
-                <Item.Header as='a'>{item.title}</Item.Header>
+                <Item.Header as='a' onClick={() => history.push(`/products/${item.id}`)}>{item.title}</Item.Header>
                 <Item.Meta>
                   <span className='cinema'>{item.category}</span>
                 </Item.Meta>
                 <Item.Description>{item.description}</Item.Description>
                 <Item.Extra>
                   {logged ? (
-                  <Button 
-                    primary 
-                    floated='right' 
-                    icon 
-                    labelPosition='right'
-                    onClick={() => handleAddToCart(item.slug)}
-                  >
-                    Add to cart
-                    <Icon name='cart plus' />
-                  </Button>): (
+                    <Header floated='right'>
+                      {item.price}$
+                    </Header>
+                  ): (
                     <Button 
                     primary 
                     floated='right' 

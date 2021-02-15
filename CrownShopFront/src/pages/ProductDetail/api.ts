@@ -4,17 +4,11 @@ import axios from 'axios';
 
 
 //Payment
-export const paymentApi = (token) => {
+export const getDetailItemApi = (productID) => {
     return new Promise((resolve, reject) => {
         axios({
-            method: 'post',
-            url: 'http://127.0.0.1:8000/api/payment/',
-            data: {
-                stripeToken: token,
-            },
-            headers: {
-                Authorization: `JWT ${localStorage.getItem('token')}`
-            }, 
+            method: 'get',
+            url: `http://127.0.0.1:8000/api/products/${productID}/`,
         })
         .then((response) => {
             return resolve(response.data)

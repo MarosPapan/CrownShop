@@ -15,6 +15,8 @@ import Homepage from "../pages/Homepage";
 import Shop from "../pages/Shop";
 import Checkout from "../pages/Checkout";
 import Payment from "../pages/Payment";
+import ProductDetail from "../pages/ProductDetail";
+import ProfilePage from "../pages/ProfilePage";
 
 import SignupForm from "../components/SignupForm";
 import LoginForm from "../components/LoginForm";
@@ -62,7 +64,7 @@ const App: React.FunctionComponent = () => {
 					<Route path="/signup">
 						<SignupForm/>
 					</Route>
-					<Route path="/shop">
+					<Route exact path="/products">
 						<Shop />
 					</Route>
 					<Route path="/checkout">
@@ -72,6 +74,12 @@ const App: React.FunctionComponent = () => {
 						<Elements stripe={stripePromise}>
 							<Payment />
 						</Elements>
+					</Route>
+					<Route path="/products/:productID">
+						<ProductDetail />
+					</Route>
+					<Route path="/profile">
+						<ProfilePage />
 					</Route>
 				</Switch>
 			<Footbar/>
