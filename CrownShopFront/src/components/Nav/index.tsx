@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, {Fragment} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import { 
     BrowserRouter as Router,
     Link,
@@ -35,7 +36,7 @@ const Nav = (props) => {
         console.log("Logged out")
     };
     
-    const username = useSelector(state => state.login.data.user);
+    const username = useSelector(state => _.get(state, 'login.data.username', ''));
     const {logged} = useSelector(state => state.login);
     const {loading} = useSelector(state => state.cart);
 
@@ -64,7 +65,7 @@ const Nav = (props) => {
             <>
                 {logged ? (
                     <>
-                        <li className="_navbar-child nav-link disabled">??</li>
+                        <li className="_navbar-child nav-link disabled">{username}</li>
                         <li className="_navbar-child" onClick={handle_logout}>LOGOUT</li>
                         <li className="_navbar-child">
                             <Link className="_remove-decoration-a" to="/profile">PROFILE</Link>

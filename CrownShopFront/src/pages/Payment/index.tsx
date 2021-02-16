@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Elements, 
@@ -8,10 +8,15 @@ import {
     useStripe, 
 } from '@stripe/react-stripe-js';
 import { useHistory } from 'react-router-dom';
+import Promise from 'bluebird'; 
+import axios from 'axios'; 
 
-import CouponForm from '../../components/CouponForm'
+import CouponForm from '../../components/CouponForm';
 
+import { getAdressesInit } from '../../components/Profile/getAdressesSlice';
 import { paymentInit } from './paymentSlice';
+
+import { getAddressesApi } from '../../components/Profile/api';
 
 import {
     Message,  
@@ -91,10 +96,23 @@ const OrderPrewiev = () => {
 
 const Payment = () => {
 
+    const [shippingAddress, setShippingAddress] = useState([]);
+    const [billingAddress, setBillingAddress] = useState([]);
+
     const dispatch = useDispatch();
     const stripe = useStripe();
 
     const elements = useElements();
+
+    const handleFetchBillingAddresses = () => {
+        const billingAddress = getAddressesApi('B');
+        setBillingAddress(billingAddress);
+    }; 
+
+    const handleFetchShippingAddresses = () => {
+        const shippingAddress = getAddressesApi('S');
+        setShippingAddress(shippingAddress);
+    };
 
     const {error, loading, success} = useSelector(state => state.payment);
     const {cart} = useSelector(state => state.cart);
@@ -107,6 +125,18 @@ const Payment = () => {
         //console.log("it is working ", token);
         dispatch(paymentInit(token));
     }
+    
+    useEffect(() => {
+        handleFetchBillingAddresses();
+        handleFetchShippingAddresses();
+    }, [])
+
+    useEffect(() => {
+        console.log('This is billing address: ',billingAddress);
+        console.log('This is shipping address: ', shippingAddress);
+    },[billingAddress, shippingAddress]);
+
+
     return(
         <div className="_payment">
             <Container text>

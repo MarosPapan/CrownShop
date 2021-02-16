@@ -1,5 +1,6 @@
+from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
-from shop.models import Item, Order, OrderItem, Coupon, Variation, ItemVariation
+from shop.models import Item, Order, OrderItem, Coupon, Variation, ItemVariation, Address
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -169,3 +170,17 @@ class ItemDetailSerializer(serializers.ModelSerializer):
     def get_variations(self, obj): 
         return VariationSerializer(obj.variation_set.all(), many=True).data
 
+class AddressSerializer(serializers.ModelSerializer): 
+    country = CountryField()
+    class Meta: 
+        model = Address
+        fields = (
+            'id',
+            'user',
+            'street_address',
+            'apartment_address',
+            'country',
+            'zip_code',
+            'address_type',
+            'default',
+        )

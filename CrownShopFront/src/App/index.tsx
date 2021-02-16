@@ -38,11 +38,12 @@ const App: React.FunctionComponent = () => {
 	const {logged} = useSelector(state => state.login);
 	const {sended} = useSelector(state => state.coupon);
 
+
 	useEffect(() => {
 		if(loggedIn){
 			dispatch(userGetInit());
 		}
-	}, []);
+	}, [loggedIn]);
 
 	useEffect(() => {
 		if(logged){

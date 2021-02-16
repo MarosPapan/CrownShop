@@ -41,10 +41,6 @@ const ProductList = () => {
     history.push("/login");
   };
 
-  const handleAddToCart = (slug) => {
-    console.log("Add to cart function: ", addToCartStart(slug));
-    // dispatch(addToCartStart(slug));
-  }
 
   useEffect(() => {
     console.log("This is URL", url, path)

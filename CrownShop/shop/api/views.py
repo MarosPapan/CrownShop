@@ -1,10 +1,11 @@
+from django_countries import countries
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
 
-from rest_framework.generics import ListAPIView, RetrieveAPIView 
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -21,11 +22,16 @@ from shop.models import (
     Variation,
     ItemVariation
 )
-from .serializers import ItemSerializer, OrderSerializer, ItemDetailSerializer
+from .serializers import ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer
 
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+class UserIDView(APIView): 
+    def get(self, request, *args, **kwargs): 
+        return Response({'userId': request.user.id}, status=HTTP_200_OK)
 
 class ItemListView(ListAPIView):
     permission_classes = (AllowAny, ) 
@@ -202,3 +208,26 @@ class AddCoupon(APIView):
         order.coupon = coupon
         order.save()
         return Response(status=HTTP_200_OK)
+
+
+
+class AddressListView(ListAPIView): 
+    permission_classes = (IsAuthenticated, )
+    serializer_class = AddressSerializer
+
+    def get_queryset(self): 
+        address_type = self.request.query_params.get('address_type', None)
+        qs = Address.objects.all()
+        if address_type is None: 
+            return qs
+        return qs.filter(user=self.request.user, address_type=address_type)
+
+
+class AddressCreateView(CreateAPIView): 
+    permission_classes = (IsAuthenticated, )
+    serializer_class = AddressSerializer
+    queryset = Address.objects.all()
+
+class CountryListView(APIView): 
+    def get(self, *args, **kwargs): 
+        return Response(countries, status=HTTP_200_OK)

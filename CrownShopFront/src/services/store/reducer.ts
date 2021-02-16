@@ -8,6 +8,8 @@ import getCartItemsSlice from "../../components/Cart/getCartItemsSlice";
 import paymentSlice from "../../pages/Payment/paymentSlice";
 import addCouponSlice from "../../components/CouponForm/addCouponSlice";
 import getDetailProductSlice from '../../pages/ProductDetail/getDetailSlice';
+import getAddressesSlice from '../../components/Profile/getAdressesSlice';
+import createAddressSlice from '../../components/Profile/createAddressSlice';
 
 const rootReducer = combineReducers({
     signUp: signUpUserSlice,
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
     payment: paymentSlice,
     coupon: addCouponSlice,
     detailProduct: getDetailProductSlice,
+    Addresses: getAddressesSlice,
+    CreateAddress: createAddressSlice,
 });
 
 export default rootReducer;
