@@ -12,11 +12,12 @@ import {
 
 
 function* paymentWorkerSaga(action){
-    const token = _.get(action, 'payload', null);
+    const paymentInf = _.get(action, 'payload', null);
+    console.log('PaymentInf in saga: ', paymentInf);
     let payload = null; 
 
     try{
-        payload = yield call(paymentApi, token);
+        payload = yield call(paymentApi, paymentInf);
     }
     catch(error){
         yield put(paymentError(error));

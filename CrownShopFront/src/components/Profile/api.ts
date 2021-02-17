@@ -4,7 +4,6 @@ import axios from 'axios';
 
 // GET ADDRESSES
 export const getAddressesApi = (address_type) => {
-    console.log('Address Type: ', address_type)
     return new Promise((resolve, reject) => {
         axios({
             method: 'get',

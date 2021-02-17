@@ -7,7 +7,7 @@ import {
     useElements, 
     useStripe, 
 } from '@stripe/react-stripe-js';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
@@ -31,6 +31,8 @@ import {
     Image,
     Icon,
     Label,
+    Select,
+    Dropdown
   } from 'semantic-ui-react';
 import CartWatcherSaga from 'components/Cart/saga';
 
@@ -98,20 +100,86 @@ const Payment = () => {
 
     const [shippingAddress, setShippingAddress] = useState([]);
     const [billingAddress, setBillingAddress] = useState([]);
+    const [selectedBillingAddress, setSelectedBillingAddress] = useState([]);
+    const [selectedShiipingAddress, setSelectedShippingAddress] = useState([]);
 
     const dispatch = useDispatch();
     const stripe = useStripe();
 
     const elements = useElements();
 
-    const handleFetchBillingAddresses = () => {
-        const billingAddress = getAddressesApi('B');
-        setBillingAddress(billingAddress);
+
+    const handleOnSelectChange = (e, {value, name}) => {
+        if (name === "selectedShippingAddress"){
+            setSelectedShippingAddress(value);
+        }else{
+            setSelectedBillingAddress(value);
+        };
+    };
+
+    const handleGetDefaultAddress = (addresses) => {
+        const filteredAddresses = addresses.filter(el => el.default === true);
+        if (filteredAddresses.length > 0){
+            return filteredAddresses[0].id;
+        }
+        return '';
+    }
+
+    const handleFetchBillingAddresses = (address_type) => {
+        return new Promise((resolve, reject) => {
+            axios({
+                method: 'get',
+                url: `http://127.0.0.1:8000/api/addresses/?address_type=${address_type}`,
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('token')}`
+                },
+            })
+            .then((response) => {
+                setBillingAddress(
+                    response.data.map(a => {
+                    return {
+                        key: a.id,
+                        text: `${a.street_address}, ${a.apartment_address}, ${a.country}, ${a.zip_code}`,
+                        value: a.id
+                    };
+                })
+                )
+                setSelectedBillingAddress(handleGetDefaultAddress(response.data))
+            }
+            )
+            .catch((error) => {
+                return reject(error);
+            })
+        });
     }; 
 
-    const handleFetchShippingAddresses = () => {
-        const shippingAddress = getAddressesApi('S');
-        setShippingAddress(shippingAddress);
+    const handleFetchShippingAddresses = (address_type) => {
+        return new Promise((resolve, reject) => {
+            axios({
+                method: 'get',
+                url: `http://127.0.0.1:8000/api/addresses/?address_type=${address_type}`,
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('token')}`
+                },
+            })
+            .then((response) => {
+                setShippingAddress(
+                    response.data.map(a => {
+                    return {
+                        key: a.id,
+                        text: `${a.street_address}, ${a.apartment_address}, ${a.country}, ${a.zip_code}`,
+                        value: a.id
+                    };
+                }),
+
+                );
+
+                setSelectedShippingAddress(handleGetDefaultAddress(response.data))
+            })
+            .catch((error) => {
+                return reject(error);
+            })
+        });
     };
 
     const {error, loading, success} = useSelector(state => state.payment);
@@ -122,19 +190,18 @@ const Payment = () => {
         const card = elements.getElement(CardElement);
         let result = await stripe.createToken(card);
         let token = result.token.id;
-        //console.log("it is working ", token);
-        dispatch(paymentInit(token));
+        dispatch(paymentInit([token, selectedBillingAddress, selectedShiipingAddress]));
     }
     
     useEffect(() => {
-        handleFetchBillingAddresses();
-        handleFetchShippingAddresses();
-    }, [])
+        handleFetchBillingAddresses('B');
+        handleFetchShippingAddresses('S');
+    }, []);
 
     useEffect(() => {
-        console.log('This is billing address: ',billingAddress);
-        console.log('This is shipping address: ', shippingAddress);
-    },[billingAddress, shippingAddress]);
+           
+    },[shippingAddress, billingAddress]);
+
 
 
     return(
@@ -156,32 +223,71 @@ const Payment = () => {
                 <OrderPrewiev/>
                 <Divider></Divider>
                 <CouponForm/>
-                <Header>Complete your order</Header>
-                <form onSubmit={handleOnPay}>
-                    <CardElement 
-                        options={{
-                            style: {
-                            base: {
-                                fontSize: '16px',
-                                color: '#424770',
-                                '::placeholder': {
-                                color: '#aab7c4',
-                                },
-                            },
-                            invalid: {
-                                color: '#9e2146',
-                            },
-                            },
-                        }}
+
+
+                <Divider />
+                <Header>Select a shipping address</Header>
+                {shippingAddress.length > 0 ? (
+                    <Select 
+                        name="selectedShippingAddress"
+                        value={selectedShiipingAddress} 
+                        clearable 
+                        options={shippingAddress} 
+                        selection
+                        onChange={handleOnSelectChange} 
                     />
-                    <Button 
-                        loading={loading}
-                        disabled={loading}
-                        primary 
-                        type="submit" 
-                        // disabled={!stripe} 
-                        style={{ marginTop: '20px' }}>Pay</Button>
-                </form>
+                ) : (
+                    <p>You need to <Link to="/profile">add shipping address</Link></p>
+                )}
+                <br></br>
+                <Header>Select a billing address</Header>
+                {billingAddress.length > 0 ? (
+                    <Select 
+                        name="selectedBillingAddress"
+                        value={selectedBillingAddress}
+                        clearable 
+                        options={billingAddress} 
+                        selection
+                        onChange={handleOnSelectChange}  
+                    />
+                ) : (
+                    <p>You need to <Link to="/profile">add addresses billing address</Link></p>
+                )}
+                <Divider />
+
+                {billingAddress.length < 1 || shippingAddress.length < 1 ? (
+                    <p>You need to <Link to="/profile">add addresses</Link></p>
+                    
+                    ) : (
+                    <Fragment>
+                        <Header>Complete your order</Header>
+                            <form onSubmit={handleOnPay}>
+                                <CardElement 
+                                    options={{
+                                        style: {
+                                        base: {
+                                            fontSize: '16px',
+                                            color: '#424770',
+                                            '::placeholder': {
+                                            color: '#aab7c4',
+                                            },
+                                        },
+                                        invalid: {
+                                            color: '#9e2146',
+                                        },
+                                        },
+                                    }}
+                                />
+                                <Button 
+                                    loading={loading}
+                                    disabled={loading}
+                                    primary 
+                                    type="submit" 
+                                    // disabled={!stripe} 
+                                    style={{ marginTop: '20px' }}>Pay</Button>
+                            </form>
+                    </Fragment>
+                )}
             </Container>
         </div>
     )    
