@@ -114,10 +114,14 @@ class PaymentView(APIView):
         order = Order.objects.get(user=self.request.user, ordered=False)
         # userprofile = UserProfile.objects.get(user=self.request.user)
         token = request.data.get('stripeToken')
-        print('STRIPE TOKEN: ', token)
+        billing_address_id = request.data.get('billingAddress')
+        shipping_address_id = request.data.get('shippingAddress')
         amount = int(order.get_total() * 100)
 
-        
+        billing_address = Address.objects.get(id=billing_address_id)
+        shipping_address = Address.objects.get(id=shipping_address_id)
+
+
         # if userprofile.stripe_customer_id != '' and userprofile.stripe_customer_id is not None:
         #     customer = stripe.Customer.retrieve(
         #         userprofile.stripe_customer_id)
@@ -135,7 +139,7 @@ class PaymentView(APIView):
         try:
             charge = stripe.Charge.create(
                 amount=amount,
-                    currency="usd",
+                currency="usd",
                 source=token,
             )
 
@@ -147,6 +151,8 @@ class PaymentView(APIView):
 
             order_items = order.items.all()
             order_items.update(ordered=True)
+            order.billing_address = billing_address
+            order.shipping_address = shipping_address
             for item in order_items:
                 item.save()
 
