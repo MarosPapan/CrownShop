@@ -42,3 +42,49 @@ export const createAddressApi = (data) => {
         })
     });
 };
+
+//UPDATE ADDRESS
+
+export const updateAddressApi = (data) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'PUT',
+            url: `http://127.0.0.1:8000/api/addresses/${data.id}/update/`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.getItem('token')}`
+            },
+            data: JSON.stringify(data)
+        })
+        .then((response) => {
+            return resolve(response.data);
+        })
+        .catch((error) => {
+            return reject(error)
+        })
+    });
+};
+
+
+//DELETE ADDRESS
+
+export const deleteAddressApi = (data) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'delete',
+            url: `http://127.0.0.1:8000/api/addresses/${data.id}/delete/`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.getItem('token')}`
+            },
+            data: JSON.stringify(data)
+        })
+        .then((response) => {
+            return resolve(response.data);
+        })
+        .catch((error) => {
+            return reject(error)
+        })
+    });
+};
+

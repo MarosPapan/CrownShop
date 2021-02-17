@@ -9,7 +9,9 @@ from .views import (
     AddressListView,
     AddressCreateView,
     CountryListView,
-    UserIDView
+    UserIDView,
+    AddressUpdateView,
+    AddressDeleteView
 )
 
 urlpatterns = [
@@ -22,5 +24,7 @@ urlpatterns = [
     path('addresses/', AddressListView.as_view(), name='addresses'),
     path('addresses/create/', AddressCreateView.as_view(), name='address-create'),
     path('countriesList', CountryListView.as_view(), name='countries-list'),
+    path('addresses/<pk>/update/', AddressUpdateView.as_view(), name='address-update'),
+    path('addresses/<pk>/delete/', AddressDeleteView.as_view(), name='address-delete'),
     path('userID/', UserIDView.as_view(), name='userId'),
 ]

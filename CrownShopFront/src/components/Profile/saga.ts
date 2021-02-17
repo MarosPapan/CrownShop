@@ -2,7 +2,7 @@
 import { takeLatest, call, put, select, take } from 'redux-saga/effects';
 import _ from 'lodash';
 
-import { getAddressesApi, createAddressApi } from './api';
+import { getAddressesApi, createAddressApi, updateAddressApi, deleteAddressApi } from './api';
 
 import {
     getAdressesInit,
@@ -14,6 +14,8 @@ import {
     createAddressInit,
     createAddressSuccess,
     createAddressError,
+    updateAddressInit,
+    deleteAddressInit,
 } from './createAddressSlice';
 
 
@@ -34,9 +36,36 @@ function* getAddressesSagaWorker(action){
 function* createAddressSaga(action){
     const addressData = _.get(action, 'payload', '');
     let payload = null;
-    console.log("Address data: ", addressData);
     try{
         payload = yield call(createAddressApi, addressData);
+    }
+    catch(err){
+        yield put(createAddressError(err));
+        return null;
+    };
+    yield put(createAddressSuccess(payload));
+};
+
+function* updateAddressSaga(action){
+    const addressData = _.get(action, 'payload', '');
+    let payload = null;
+    console.log("Updating: ", addressData);
+    try{
+        payload = yield call(updateAddressApi, addressData);
+    }
+    catch(err){
+        yield put(createAddressError(err));
+        return null;
+    };
+    yield put(createAddressSuccess(payload));
+};
+
+function* deleteAddressSaga(action){
+    const addressData = _.get(action, 'payload', '');
+    let payload = null;
+    console.log("Updating: ", addressData);
+    try{
+        payload = yield call(deleteAddressApi, addressData);
     }
     catch(err){
         yield put(createAddressError(err));
@@ -49,4 +78,6 @@ function* createAddressSaga(action){
 export default function* AddressesSagaWatcher(){
     yield takeLatest(getAdressesInit, getAddressesSagaWorker);
     yield takeLatest(createAddressInit, createAddressSaga);
+    yield takeLatest(updateAddressInit, updateAddressSaga);
+    yield takeLatest(deleteAddressInit, deleteAddressSaga);
 };

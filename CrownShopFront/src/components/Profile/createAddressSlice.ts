@@ -19,6 +19,18 @@ const createAddressSlice = createSlice({
             state.address = {};
             state.error = null;
         },
+        updateAddressInit: (state, {payload}) => {
+            state.creating = true; 
+            state.created = false;
+            state.address = {};
+            state.error = null;
+        },
+        deleteAddressInit: (state, {payload}) => {
+            state.creating = true; 
+            state.created = false;
+            state.address = {};
+            state.error = null;
+        },
         createAddressSuccess: (state, {payload}) => {
             state.creating = false; 
             state.created = true;
@@ -34,5 +46,11 @@ const createAddressSlice = createSlice({
     },
 });
 
-export const { createAddressInit, createAddressSuccess, createAddressError } = createAddressSlice.actions;
+export const { 
+    createAddressInit, 
+    createAddressSuccess, 
+    createAddressError, 
+    updateAddressInit, 
+    deleteAddressInit 
+} = createAddressSlice.actions;
 export default createAddressSlice.reducer;
