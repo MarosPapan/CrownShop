@@ -53,7 +53,6 @@ const ProductDetail = () => {
 
     const handleAddToCart = (slug) => {
         const variations = handleFormatData(orderingForm.formData);
-        console.log('Formated DATA: ', variations);
         dispatch(addToCartStart([slug, variations]));
       }
 

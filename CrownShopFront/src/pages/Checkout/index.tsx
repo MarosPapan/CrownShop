@@ -1,7 +1,13 @@
 // @ts-nocheck
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, } from 'react-router-dom';
+
+import { deleteCartItemInit } from '../../components/Cart/deleteCartItemSlice';
+import { getCartItemsStart } from '../../components/Cart/getCartItemsSlice';
+import { addToCartStart } from '../../components/ProductList/addToCartSlice';
+import { removeOneItemFromCartStart } from '../../components/Cart/removeOneItemFromCartSlice';
+
 
 import { 
     Button, 
@@ -22,10 +28,14 @@ import './style.scss';
 
 const Checkout = (props) => {
 
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const {logged} = useSelector(state => state.login);
     const {cart, error, loaded, loading} = useSelector(state => state.cart)
+    const {deleting, deleted} = useSelector(state => state.itemCartDelete)
+    const {added, adding} = useSelector(state => state.addToCart);
+    const {removed} = useSelector(state => state.removeOneItemFromCart);
 
     const renderVariations = ordertItem => {
         let text = '';
@@ -38,6 +48,33 @@ const Checkout = (props) => {
     const handle_checkout = () => {
         history.push('/payment');
     };
+
+    const handleFormatData = (itemVariations) => {
+        // [{id: 1},{id: 2}] => [1,2] - all variations
+        return Object.keys(itemVariations).map(key => {
+            return itemVariations[key].id;
+        });
+    };
+
+    const handleRemoveQuantityFromCart = (slug) => {
+        dispatch(removeOneItemFromCartStart(slug))
+    };
+
+    const handleAddtoCart = (slug, itemVariations) => {
+        const variations = handleFormatData(itemVariations);
+        dispatch(addToCartStart([slug, variations]))
+    };
+
+    const handleRemoveItem = (itemID) => {
+        dispatch(deleteCartItemInit(itemID));
+    };
+
+    useEffect(() => {
+        if (logged === false) {
+            history.push('/login')
+        }
+        dispatch(getCartItemsStart());
+    }, [deleted, added, logged, removed])
 
     return(
         <div className="_checkout">
@@ -72,6 +109,7 @@ const Checkout = (props) => {
                 </Table.Header>
 
                 <Table.Body>
+                    {console.log("Items in cart", cart)}
                     {cart.order_items.map((order_item, i)=> {
                         return (
                             <Table.Row key={order_item.id}>
@@ -80,12 +118,30 @@ const Checkout = (props) => {
                                 </Table.Cell>
                                 <Table.Cell>{order_item.item.title} - {renderVariations(order_item)}</Table.Cell>
                                 <Table.Cell>${order_item.item.price}</Table.Cell>
-                                <Table.Cell>{order_item.quantity}</Table.Cell>
+                                <Table.Cell textAlign='center'>
+                                    <Icon 
+                                    name='minus' 
+                                    style={{float: "left", cursor: "pointer"}}
+                                    onClick={() => handleRemoveQuantityFromCart(order_item.item.slug)}
+                                    />
+                                    {order_item.quantity}
+                                    <Icon 
+                                    name='plus'
+                                    style={{float: "right", cursor: "pointer"}}
+                                    onClick={() => handleAddtoCart(order_item.item.slug, order_item.item_variations)}
+                                    />
+                                </Table.Cell>
                                 <Table.Cell>
                                     {order_item.item.discount_price && (
                                         <Label color="green" ribbon>On Discount</Label>
                                     )}
                                     ${order_item.final_price}
+                                    <Icon 
+                                    name='trash' 
+                                    color="red" 
+                                    style={{float: "right", cursor: "pointer"}}
+                                    onClick={() => handleRemoveItem(order_item.id)}
+                                    />
                                 </Table.Cell>
                             </Table.Row>
                         )
