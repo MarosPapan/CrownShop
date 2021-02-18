@@ -32,9 +32,9 @@ const Checkout = (props) => {
     const history = useHistory();
 
     const {logged} = useSelector(state => state.login);
-    const {cart, error, loaded, loading} = useSelector(state => state.cart)
-    const {deleting, deleted} = useSelector(state => state.itemCartDelete)
-    const {added, adding} = useSelector(state => state.addToCart);
+    const {cart, loading} = useSelector(state => state.cart)
+    const {deleted} = useSelector(state => state.itemCartDelete)
+    const {added} = useSelector(state => state.addToCart);
     const {removed} = useSelector(state => state.removeOneItemFromCart);
 
     const renderVariations = ordertItem => {
@@ -57,12 +57,12 @@ const Checkout = (props) => {
     };
 
     const handleRemoveQuantityFromCart = (slug) => {
-        dispatch(removeOneItemFromCartStart(slug))
+        dispatch(removeOneItemFromCartStart(slug));
     };
 
     const handleAddtoCart = (slug, itemVariations) => {
         const variations = handleFormatData(itemVariations);
-        dispatch(addToCartStart([slug, variations]))
+        dispatch(addToCartStart([slug, variations]));
     };
 
     const handleRemoveItem = (itemID) => {
@@ -70,12 +70,8 @@ const Checkout = (props) => {
     };
 
     useEffect(() => {
-        if (logged === false) {
-            history.push('/login')
-        }
         dispatch(getCartItemsStart());
-    }, [deleted, added, logged, removed])
-
+    }, [deleted, added, removed]);
     return(
         <div className="_checkout">
             <Container>
