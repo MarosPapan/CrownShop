@@ -6,6 +6,8 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
+	useHistory,
+	Link
 } from 'react-router-dom'
 import _ from "lodash";
 import {Elements, CardElement} from '@stripe/react-stripe-js';
@@ -26,18 +28,16 @@ import Footbar from "../components/Footbar";
 import { userGetInit } from '../components/LoginForm/logInUserSlice';
 import { getCartItemsStart } from '../components/Cart/getCartItemsSlice';
 
-import "./style.scss"
+import "./style.scss";
 
 const stripePromise = loadStripe('pk_test_51HnHArCYk4wmmfhvLrMmcXl2DbeY07P05wVmzorvJ3KaIHYQJJ695oBURUbM1MjFgPBHAufpnIfrsKnaAeAWPDkf007jlcIeWR');
 
-const App: React.FunctionComponent = () => {
-
+const App: React.FunctionComponent = (props) => {
 	const dispatch = useDispatch();
 
 	const loggedIn = localStorage.getItem('token');
 	const {logged} = useSelector(state => state.login);
 	const {sended} = useSelector(state => state.coupon);
-
 
 	useEffect(() => {
 		if(loggedIn){
@@ -54,36 +54,41 @@ const App: React.FunctionComponent = () => {
 	return(
 		<Router>
 			<div className="_app-wrap">
-			<Nav/>
-				<Switch className="_content">
-					<Route path="/" exact>
-						<Homepage/>
-					</Route>
-					<Route path="/login">
-						<LoginForm />
-					</Route>
-					<Route path="/signup">
-						<SignupForm/>
-					</Route>
-					<Route exact path="/products">
-						<Shop />
-					</Route>
-					<Route path="/checkout">
-						<Checkout />
-					</Route>
-					<Route path="/payment" exact>
-						<Elements stripe={stripePromise}>
-							<Payment />
-						</Elements>
-					</Route>
-					<Route path="/products/:productID">
-						<ProductDetail />
-					</Route>
-					<Route path="/profile">
-						<ProfilePage />
-					</Route>
-				</Switch>
-			<Footbar/>
+				<Nav />
+
+				<div className="_content">
+						<Switch>
+							<Route path="/" exact>
+								<Homepage/>
+							</Route>
+							<Route path="/login">
+								<LoginForm />
+							</Route>
+							<Route path="/signup">
+								<SignupForm/>
+							</Route>
+							<Route exact path="/products">
+								<Shop />
+							</Route>
+							<Route path="/checkout">
+								<Checkout />
+							</Route>
+							<Route path="/payment" exact>
+								<Elements stripe={stripePromise}>
+									<Payment />
+								</Elements>
+							</Route>
+							<Route path="/products/:productID">
+								<ProductDetail />
+							</Route>
+							<Route path="/profile">
+								<ProfilePage />
+							</Route>
+						</Switch>
+				</div>
+
+				<Footbar/>
+
 			</div>
 		</Router>
 	);

@@ -12,6 +12,7 @@ import getAddressesSlice from '../../components/Profile/getAdressesSlice';
 import createAddressSlice from '../../components/Profile/createAddressSlice';
 import deleteCartItemSlice from '../../components/Cart/deleteCartItemSlice';
 import removeOneItemFromCartSlice from '../../components/Cart/removeOneItemFromCartSlice';
+import activeCategorySlice from '../../components/Categories/activeCategorySlice';
 
 const rootReducer = combineReducers({
     signUp: signUpUserSlice,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     CreateAddress: createAddressSlice,
     itemCartDelete: deleteCartItemSlice,
     removeOneItemFromCart: removeOneItemFromCartSlice,
+    activeCategory: activeCategorySlice,
 });
 
 export default rootReducer;

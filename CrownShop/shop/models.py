@@ -6,9 +6,9 @@ from django_countries.fields import CountryField
 # Create your models here.
 
 CATEGORY_CHOICES = (
-    ('S','Shirt'),
-    ('SW','Sport wear'),
-    ('OW','Outwear'),
+    ('F','Football'),
+    ('R','Running'),
+    ('E','Excersising'),
 )
 
 LABEL_CHOICES = (

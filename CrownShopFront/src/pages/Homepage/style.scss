@@ -1,12 +1,12 @@
-._about-us{
+._about_shop_area{
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    align-content: center;
+    align-content: stretch;
     align-items: center;
     margin: 2% 20% 2% 20%;
-    //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 
     h2, p {
         font-family: 'Roboto', sans-serif;
@@ -24,4 +24,8 @@
         font-family: 'Rubik', sans-serif;
         margin-top: 2%;
     }
+}
+
+._center_items{
+    text-align: center;
 }

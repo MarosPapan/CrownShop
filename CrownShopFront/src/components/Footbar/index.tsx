@@ -8,8 +8,8 @@ const Footbar = (props) => {
     return(
         <div className="footbar">
             <div className="_footer-child">
-                <img src={crown} />
-                <h4>CrownShop</h4>
+                {/* <img src={crown} /> */}
+                <h1>CrownShop</h1>
             </div>
         </div>
     )

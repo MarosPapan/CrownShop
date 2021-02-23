@@ -3,6 +3,15 @@ import React, { Fragment, useEffect, useState } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+
+import { getDetailProductInit } from './getDetailSlice';
+
+ import {
+    addToCartStart,
+ } from "../../components/ProductList/addToCartSlice";
+
+import { getCartItemsStart } from "../../components/Cart/getCartItemsSlice";
+
 import { 
     Container,
     Card,
@@ -19,14 +28,7 @@ import {
     Divider,
     Select,
 } from 'semantic-ui-react';
-
-import { getDetailProductInit } from './getDetailSlice';
-
- import {
-    addToCartStart,
- } from "../../components/ProductList/addToCartSlice";
-
-import { getCartItemsStart } from "../../components/Cart/getCartItemsSlice"; 
+import './style.scss';
 
 const ProductDetail = () => {
 
@@ -34,6 +36,9 @@ const ProductDetail = () => {
     const params = useParams(); 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const [ activeCategory, setActiveCategorie ] = useState('');
+
     const {added} = useSelector(state => state.addToCart);
     const {logged} = useSelector(state => state.login);
     const {loaded, data} = useSelector(state => state.detailProduct);
@@ -74,7 +79,6 @@ const ProductDetail = () => {
             formData: updatedForm,
             visibleForm: true,
         });
-        console.log("Changed data: ", orderingForm);
     };
 
     useEffect(() => {
@@ -88,11 +92,11 @@ const ProductDetail = () => {
       }, [added])
 
     useEffect(() => {
-        console.log("Changed DATA: ", orderingForm);
     }, [handleChange]);
 
     return(
-        <Container>
+        <div className="_detail_product">
+            <Container>
             {loaded ? (
             <>
             <Grid columns={2} divided>
@@ -204,6 +208,7 @@ const ProductDetail = () => {
                 </>
             )}
         </Container>
+        </div>
     )}
 
 export default ProductDetail;

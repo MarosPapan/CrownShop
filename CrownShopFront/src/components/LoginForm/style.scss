@@ -6,9 +6,10 @@
     align-content: stretch;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
-    width: 40%;
+    width: 65%;
+    min-height: 440px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin: 0 auto;
+    margin: 11% auto 2% auto;
 
     ._child-login-form{
         margin: 20px 0 20px 0px;
