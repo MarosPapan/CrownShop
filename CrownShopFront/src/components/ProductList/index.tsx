@@ -1,13 +1,15 @@
 // @ts-nocheck
-import React, { fragment, useEffect } from 'react';
+import React, { Fragment, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom';
+import { useHistory, useRouteMatch} from 'react-router-dom';
 
 import { 
   getProductsInit,
  } from "./getProductsSlice";
 
 import { getCartItemsStart } from "../Cart/getCartItemsSlice";
+import { activeCategoryInit } from '../Categories/activeCategorySlice';
+
 
 import { 
   Button, 
@@ -20,7 +22,8 @@ import {
   Segment, 
   Loader, 
   Message, 
-  Header, 
+  Header,
+  Menu
 } from 'semantic-ui-react';
 import './style.scss'
 
@@ -41,9 +44,13 @@ const ProductList = () => {
   };
 
 
+  const getActiveCategory = (category) => {
+    dispatch(activeCategoryInit(category));
+};
+
   useEffect(() => {
     dispatch(getProductsInit());
-  }, [category])
+  }, [])
 
   useEffect(() => {
     if(logged){
@@ -72,12 +79,45 @@ const ProductList = () => {
         </Segment>
       </>
     ):(
+      <>
+      <Menu tabular>
+      <Menu.Item
+          name="All"
+          active={category === ""}
+          onClick={() => getActiveCategory('')}
+        >
+          Všetko <Icon name="star" />
+        </Menu.Item>
+        <Menu.Item
+          name="Football"
+          active={category === "Football"}
+          onClick={() => getActiveCategory('Football')}
+        >
+          Futbal <Icon name="soccer" />
+        </Menu.Item>
+
+        <Menu.Item
+          name="Running"
+          active={category === "Running"}
+          onClick={() => getActiveCategory('Running')}
+        >
+          Beh <Icon name="heartbeat" />
+        </Menu.Item>
+
+        <Menu.Item
+          name="Excersising"
+          active={category === "Excersising"}
+          onClick={() => getActiveCategory('Excersising')}
+        >
+          Cvičenie <Icon name="child" />
+        </Menu.Item>
+      </Menu>
       <Item.Group divided>
         {data.map(item => {
           return(
-            <>
+            <Fragment key={item.id}>
             {category === item.category && (
-              <Item key={item.id}>
+              <Item>
               <Item.Image src={item.image} />
         
               <Item.Content>
@@ -99,11 +139,11 @@ const ProductList = () => {
                     labelPosition='right'
                     onClick={() => handleOnLoginCart()}
                   >
-                    You need to LogIn
+                    Musíš sa prihlásiť
                     <Icon name='user' />
                   </Button>
                   )}
-                  {item.discount_price && <Label>DISCOUNT</Label>}
+                  {item.discount_price && <Label>Zľava</Label>}
                 </Item.Extra>
               </Item.Content>
             </Item>
@@ -131,19 +171,20 @@ const ProductList = () => {
                     labelPosition='right'
                     onClick={() => handleOnLoginCart()}
                   >
-                    You need to LogIn
+                    Musíš sa prihlásiť
                     <Icon name='user' />
                   </Button>
                   )}
-                  {item.discount_price && <Label>DISCOUNT</Label>}
+                  {item.discount_price && <Label>Zľava</Label>}
                 </Item.Extra>
               </Item.Content>
             </Item>
             )}
-            </>
+            </Fragment>
           )
         })}
     </Item.Group>
+    </>
     )}
   </Container>
   </div>

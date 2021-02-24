@@ -75,7 +75,8 @@ const Checkout = (props) => {
     return(
         <div className="_checkout">
             <Container>
-            <Header as="h2">Checkout</Header>
+                <br/>
+            <Header as="h2">Prehľad Košíku</Header>
             {cart == null && (
             <Message
                 warning
@@ -96,11 +97,11 @@ const Checkout = (props) => {
                 <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Item #</Table.HeaderCell>
-                        <Table.HeaderCell>Item name</Table.HeaderCell>
-                        <Table.HeaderCell>Item price</Table.HeaderCell>
-                        <Table.HeaderCell>Item quantity</Table.HeaderCell>
-                        <Table.HeaderCell>Total item price</Table.HeaderCell>
+                        <Table.HeaderCell>#</Table.HeaderCell>
+                        <Table.HeaderCell>Produkt</Table.HeaderCell>
+                        <Table.HeaderCell>Cena produktu</Table.HeaderCell>
+                        <Table.HeaderCell>Množstvo</Table.HeaderCell>
+                        <Table.HeaderCell>Cena celkovo</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -147,7 +148,7 @@ const Checkout = (props) => {
                         <Table.Cell />
                         <Table.Cell />
                         <Table.Cell colSpan='2' textAlign="center">
-                        Total: ${cart.total}
+                        Celková suma objednávky: ${cart.total}
                         </Table.Cell>
                     </Table.Row>
                 </Table.Body>
@@ -155,7 +156,7 @@ const Checkout = (props) => {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5' textAlign="right">
-                        <Button color="yellow" onClick={() => handle_checkout()}>Checkout</Button>
+                        <Button color="yellow" onClick={() => handle_checkout()}>Platba</Button>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>

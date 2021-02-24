@@ -66,7 +66,7 @@ const OrderPrewiev = () => {
                                     </Item.Header>
                                     <Item.Extra>
                                         <Button primary floated="right">
-                                        quantity: {order_item.quantity}x
+                                        množstvo: {order_item.quantity}x
                                         </Button>
                                         <Label>${order_item.final_price }</Label>
                                     </Item.Extra>
@@ -80,10 +80,10 @@ const OrderPrewiev = () => {
                     <Item.Group>
                         <Item>
                             <Item.Content>
-                                <Item.Header>Order Total: ${cart.total}
+                                <Item.Header>Celková suma objednávky: ${cart.total}
                                 {cart.coupon && (
                                     <Label color="green" style={{marginLeft: '10px'}}>
-                                        Current coupon: {cart.coupon.code} for {cart.coupon.amount}
+                                        Aktuálny kupón: {cart.coupon.code} for {cart.coupon.amount}
                                     </Label>
                                 )}
                                 </Item.Header>
@@ -209,14 +209,13 @@ const Payment = () => {
             <Container text>
                 {error && (
                     <Message negative>
-                    <Message.Header>Your payment was not successfull</Message.Header>
-                    <p>Try again later: {JSON.stringify(error)}</p>
+                    <Message.Header>Tvoja platba nebola úspešná</Message.Header>
+                    <p>Skús ešte raz neskôr: {JSON.stringify(error)}</p>
                   </Message>
                 )}
                 {success && (
                     <Message info>
-                        <Message.Header>Your paymnet was sucessfull</Message.Header>
-                        <p>See your order status</p>
+                        <Message.Header>Objednávka uspešne zaslaná</Message.Header>
                   </Message>
                 )}
 
@@ -226,7 +225,7 @@ const Payment = () => {
 
 
                 <Divider />
-                <Header>Select a shipping address</Header>
+                <Header>Vyberte dodaciu adresu</Header>
                 {shippingAddress.length > 0 ? (
                     <Select 
                         name="selectedShippingAddress"
@@ -237,10 +236,10 @@ const Payment = () => {
                         onChange={handleOnSelectChange} 
                     />
                 ) : (
-                    <p>You need to <Link to="/profile">add shipping address</Link></p>
+                    <p>Potrebuješ<Link to="/profile">pridať dodaciu adresu</Link></p>
                 )}
                 <br></br>
-                <Header>Select a billing address</Header>
+                <Header>Vyberte fakturačnú adresu </Header>
                 {billingAddress.length > 0 ? (
                     <Select 
                         name="selectedBillingAddress"
@@ -251,16 +250,16 @@ const Payment = () => {
                         onChange={handleOnSelectChange}  
                     />
                 ) : (
-                    <p>You need to <Link to="/profile">add addresses billing address</Link></p>
+                    <p>Potrebuješ<Link to="/profile">pridať fakturačnú adresu</Link></p>
                 )}
                 <Divider />
 
                 {billingAddress.length < 1 || shippingAddress.length < 1 ? (
-                    <p>You need to <Link to="/profile">add addresses</Link></p>
+                    <p>Potrebuješ<Link to="/profile"> pridať adresy</Link></p>
                     
                     ) : (
                     <Fragment>
-                        <Header>Complete your order</Header>
+                        <Header>Vyplňte svoju objednávku</Header>
                             <form onSubmit={handleOnPay}>
                                 <CardElement 
                                     options={{
@@ -284,7 +283,7 @@ const Payment = () => {
                                     primary 
                                     type="submit" 
                                     // disabled={!stripe} 
-                                    style={{ marginTop: '20px' }}>Pay</Button>
+                                    style={{ marginTop: '20px' }}>Zaplať</Button>
                             </form>
                     </Fragment>
                 )}

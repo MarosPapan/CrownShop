@@ -33,14 +33,14 @@ const CouponForm = () => {
         <div className="_coupon_form">
             <Form onSubmit={(e) => handle_on_coupon(e, code)}>
                 <Form.Field>
-                <label>Coupon code</label>
+                <label>Kupón</label>
                 <input 
-                    placeholder='Enter Coupon'
+                    placeholder='Zadaj kupón'
                     value={code}
                     onChange={handle_on_change}
                 />
                 </Form.Field>
-                <Button type='submit'>Enter Coupon</Button>
+                <Button type='submit'>Potvrď kupón</Button>
             </Form>
         </div>
     );    

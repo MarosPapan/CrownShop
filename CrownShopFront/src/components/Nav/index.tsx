@@ -53,7 +53,7 @@ const Nav = (props) => {
         <div className="_navbar-child">
             <Icon color="yellow" size="small" name="caret down"/>
             <Dropdown
-            icon="server large yellow"
+            icon="list large yellow"
             >
             <Dropdown.Menu>
                 <Dropdown.Item onClick={() => clickOnShop()}>
@@ -145,7 +145,7 @@ const Nav = (props) => {
                             <Dropdown.Item>žiadny produkt v tvojom košíku</Dropdown.Item>
                         ) : null}
                         <Dropdown.Divider />
-                        <Dropdown.Item icon="arrow right" text="Checkout" onClick={() => {history.push("/checkout")}}/>
+                        <Dropdown.Item icon="arrow right" text="Košík" onClick={() => {history.push("/checkout")}}/>
                     </Dropdown.Menu>
                     </Dropdown>
                 </div>

@@ -134,14 +134,14 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                             <Form.Input 
                                 required
                                 name='street_address' 
-                                placeholder="Street address" 
+                                placeholder="Mesto" 
                                 onChange={handleOnChange}
                                 value={formData.street_address}
                             />
                             <Form.Input 
                                 required
                                 name='apartment_address' 
-                                placeholder="Apartment address" 
+                                placeholder="Ulica, Čislo domu" 
                                 onChange={handleOnChange}
                                 value={formData.apartment_address}
                             />
@@ -152,7 +152,7 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                                 search
                                 options={countries}
                                 name='country'
-                                placeholder="Country"
+                                placeholder="Krajina"
                                 onChange={handleOnSelectChange}
                                 value={formData.country}
                             />
@@ -160,13 +160,13 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                             <Form.Input 
                                 required
                                 name='zip_code' 
-                                placeholder="Zip code"
+                                placeholder="Zip"
                                 value={formData.zip_code}
                                 onChange={handleOnChange} 
                             />
                             <Form.Checkbox 
                                 name='default' 
-                                label="Make this default address?" 
+                                label="Je to tvoja základna adresa?" 
                                 onChange={handleToggleDefault}
                                 checked={formData.default}
                             />
@@ -186,7 +186,7 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                                 />
                             )}
                             <Form.Button disabled={creating} loading={creating} color="yellow">
-                                    Save
+                                    Uložiť
                             </Form.Button>
                         </Form>
     );
@@ -325,20 +325,14 @@ const Profile = () => {
                 <Grid.Column width={6}>
                 <Menu pointing secondary vertical position='right'>
                     <Menu.Item
-                    name='Billing Address'
+                    name='Fakturačna adresa'
                     active={activeItem === 'billingAddress'}
                     onClick={() => handleItemClick('billingAddress')}
                     />
                     <Menu.Item
-                    name='Shiping Address'
+                    name='Dodacia Adresa'
                     active={activeItem === 'shippingAddress'}
                     onClick={() => handleItemClick('shippingAddress')}
-                    />
-
-                    <Menu.Item
-                    name='paymentHistory'
-                    active={activeItem === 'paymentHistory'}
-                    onClick={() => handleItemClick('paymentHistory')}
                     />
                 </Menu>
                 </Grid.Column>
@@ -355,7 +349,7 @@ const Profile = () => {
                                             {address.default && <Label as='a' color='orange' ribbon='right'>
                                                 Default
                                             </Label>}
-                                            <Card.Meta>{address.address_type === 'B' ? 'Billing Address' : 'Shipping Address'}</Card.Meta>
+                                            <Card.Meta>{address.address_type === 'B' ? 'Fakturačná Adresa' : 'Dodacia Adresa'}</Card.Meta>
                                             <br/>
                                             <Card.Header>{address.street_address}, {address.apartment_address}</Card.Header>
                                             <Card.Meta>{address.country}</Card.Meta>
@@ -371,7 +365,7 @@ const Profile = () => {
                                                 Update
                                             </Button>
                                             <Button onClick={() => handleDeleteAddress(address)} basic color='red'>
-                                                Delete
+                                                Vymazať
                                             </Button>
                                             </div>
                                         </Card.Content>
@@ -392,7 +386,7 @@ const Profile = () => {
                         )}
                     </Card.Group>
                         <h3>{`${
-                            activeItem === 'billingAddress' ? "Billing Address" : "Shipping Address"
+                            activeItem === 'billingAddress' ? "Fakturačná Adresa" : "Dodacia Adresa"
                         }`}</h3>
                         {selectedAddress ? (
                             <AddressForm 
