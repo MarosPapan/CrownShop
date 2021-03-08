@@ -2,13 +2,16 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    addCouponURL,
+} from '../../constants';
 
 //login user
 export const handleAddCouponApi = (coupon) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/add-coupon/',
+            url: addCouponURL,
             headers: {
                 Authorization: `JWT ${localStorage.getItem('token')}`
             },

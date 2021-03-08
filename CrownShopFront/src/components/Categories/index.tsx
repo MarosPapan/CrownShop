@@ -16,8 +16,8 @@ import {
     Divider,
     Button
 } from 'semantic-ui-react' 
-import './style.scss';
 import '../../bootstrap/css/bootstrap.css';
+import './style.scss';
 
 
 const Categories = (props) => {

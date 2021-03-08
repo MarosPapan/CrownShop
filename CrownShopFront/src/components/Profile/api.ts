@@ -2,6 +2,12 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    addressCreateURL,
+    addressUpdateURL,
+    addressDeleteURL,
+} from '../../constants';
+
 // GET ADDRESSES
 export const getAddressesApi = (address_type) => {
     return new Promise((resolve, reject) => {
@@ -27,7 +33,7 @@ export const createAddressApi = (data) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/addresses/create/',
+            url: addressCreateURL,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.getItem('token')}`
@@ -49,7 +55,7 @@ export const updateAddressApi = (data) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'PUT',
-            url: `http://127.0.0.1:8000/api/addresses/${data.id}/update/`,
+            url: addressUpdateURL(data.id),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.getItem('token')}`
@@ -72,7 +78,7 @@ export const deleteAddressApi = (data) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'delete',
-            url: `http://127.0.0.1:8000/api/addresses/${data.id}/delete/`,
+            url: addressDeleteURL(data.id),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.getItem('token')}`

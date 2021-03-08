@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 import Slider from "../../components/Slider/Slider";
 import Categories from "../../components/Categories"
 
-import man from '../../assets/images/man.jpg';
-import woman from '../../assets/images/woman.jpg';
+import man from '../../assets/images/man.png';
+import woman from '../../assets/images/woman.png';
 import woman_excersising from '../../assets/images/woman_excersising.jpg';
 import happy_guys from '../../assets/images/happy_guys.jpg';
 import { 
@@ -71,7 +71,7 @@ const Homepage = (props) => {
 
             <Categories />
 
-            <div className="_about_shop_area">
+            <div className="_about_shop_area" id="about_us">
                 <Icon name="window minimize yellow big"></Icon>
                 <div className="container _main_padding">
                     <div className="row">

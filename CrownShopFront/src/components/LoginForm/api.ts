@@ -2,13 +2,17 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    loginUrl,
+    currentUserUrl,
+} from '../../constants';
 
 //login user
 export const handle_login_api = (data) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/jwt-token-auth/',
+            url: loginUrl,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -29,7 +33,7 @@ export const getUserApi = () => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'get',
-            url: 'http://127.0.0.1:8000/current_user/',
+            url: currentUserUrl,
             headers: {
                 Authorization: `JWT ${localStorage.getItem('token')}`
             },

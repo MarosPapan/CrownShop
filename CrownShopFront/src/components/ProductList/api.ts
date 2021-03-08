@@ -2,12 +2,18 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import { 
+    productListURL,
+    addToCartURL,
+ } from '../../constants';
+
 // GET ALL PRODUCTS
 export const getProductsApi = () => {
+    console.log("This is URL of product list: ", productListURL)
     return new Promise((resolve, reject) => {
         axios({
             method: 'get',
-            url: 'http://127.0.0.1:8000/api/product-list/',
+            url: productListURL,
         })
         .then((response) => {
             return resolve(response.data);
@@ -23,7 +29,7 @@ export const addToCartApi = (product_inf) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:8000/api/add-to-cart/',
+            url: addToCartURL,
             data: {
                 slug: product_inf[0],
                 variations: product_inf[1],

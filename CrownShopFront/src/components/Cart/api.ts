@@ -2,13 +2,18 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    orderSummaryURL,
+    orderItemDeleteURL,
+    orderItemUpdateQuantityURL,
+} from '../../constants';
 
 // GET PRODUCTS IN CART
 export const getCartItemsApi = () => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'get',
-            url: 'http://127.0.0.1:8000/api/order-summary/',
+            url: orderSummaryURL,
             headers: {
                 Authorization: `JWT ${localStorage.getItem('token')}`
             }, 
@@ -18,7 +23,7 @@ export const getCartItemsApi = () => {
         })
         .catch((error) => {
             return reject(error);
-        })
+        });
     });
 };
 
@@ -30,7 +35,7 @@ export const deleteCartItemApi = (data) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'delete',
-            url: `http://127.0.0.1:8000/api/order-items/${data}/delete/`,
+            url: orderItemDeleteURL(data),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.getItem('token')}`
@@ -42,7 +47,7 @@ export const deleteCartItemApi = (data) => {
         })
         .catch((error) => {
             return reject(error)
-        })
+        });
     });
 };
 
@@ -52,7 +57,7 @@ export const removeOneItemFromCartApi = (slug) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:8000/api/order-items/update-quantity',
+            url: orderItemUpdateQuantityURL,
             data: {
                 slug: slug,
             },
@@ -65,7 +70,7 @@ export const removeOneItemFromCartApi = (slug) => {
         })
         .catch((error) => {
             return reject(error);
-        }) 
-    })
-}
+        }); 
+    });
+};
 

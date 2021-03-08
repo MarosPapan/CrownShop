@@ -19,6 +19,12 @@ import { paymentInit } from './paymentSlice';
 import { getAddressesApi } from '../../components/Profile/api';
 
 import {
+    endpoint,
+    localhost,
+    addressTypeURL,
+} from '../../constants';
+
+import {
     Message,  
     Container,
     Button,
@@ -58,7 +64,7 @@ const OrderPrewiev = () => {
                         return(
                             <Item.Group relaxed key={order_item.id}>
                                 <Item>
-                                <Item.Image size='tiny' src={`http://127.0.0.1:8000${order_item.item.image}`}/>
+                                <Item.Image size='tiny' src={`${localhost}${order_item.item.image}`}/>
 
                                 <Item.Content verticalAlign='middle'>
                                     <Item.Header as='a'>
@@ -129,7 +135,7 @@ const Payment = () => {
         return new Promise((resolve, reject) => {
             axios({
                 method: 'get',
-                url: `http://127.0.0.1:8000/api/addresses/?address_type=${address_type}`,
+                url: addressTypeURL(address_type),
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('token')}`
                 },
@@ -157,7 +163,7 @@ const Payment = () => {
         return new Promise((resolve, reject) => {
             axios({
                 method: 'get',
-                url: `http://127.0.0.1:8000/api/addresses/?address_type=${address_type}`,
+                url: addressTypeURL(address_type),
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('token')}`
                 },

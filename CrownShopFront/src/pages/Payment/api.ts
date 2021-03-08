@@ -2,13 +2,16 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    paymentURL,
+} from '../../constants';
 
 //Payment
 export const paymentApi = (paymentInf) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:8000/api/payment/',
+            url: paymentURL,
             data: {
                 stripeToken: paymentInf[0],
                 billingAddress: paymentInf[1],

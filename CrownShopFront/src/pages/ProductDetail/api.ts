@@ -2,13 +2,16 @@
 import Promise from 'bluebird'; 
 import axios from 'axios'; 
 
+import {
+    productDettailURL
+} from '../../constants';
 
 //Payment
 export const getDetailItemApi = (productID) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'get',
-            url: `http://127.0.0.1:8000/api/products/${productID}/`,
+            url: productDettailURL(productID),
         })
         .then((response) => {
             return resolve(response.data)

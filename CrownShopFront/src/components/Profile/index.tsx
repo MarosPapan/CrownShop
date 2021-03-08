@@ -3,9 +3,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
     BrowserRouter as Router,
-    Link,
     useHistory,
-    userRouteMatch
  } from "react-router-dom";
 
 import Promise from 'bluebird'; 
@@ -14,6 +12,11 @@ import axios from 'axios';
 
 import { getAdressesInit } from './getAdressesSlice';
 import { createAddressInit, updateAddressInit, deleteAddressInit } from './createAddressSlice';
+
+import {
+    countryListUrl,
+    userIdURL,
+} from '../../constants';
 
  import { 
     Icon,
@@ -32,12 +35,12 @@ import { createAddressInit, updateAddressInit, deleteAddressInit } from './creat
     Select, 
     Card,
     Label,
-    Button
+    Button,
+    Confirm
   } from 'semantic-ui-react';
-import crown from '../../assets/images/crown.svg';
+
 import "./style.scss";
 import '../../bootstrap/css/bootstrap.min.css';
-import { callbackify } from 'util';
 
 
 const UPDATE_FORM = "UPDATE_FORM";
@@ -58,6 +61,9 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
         default: false,
     })
 
+    const [open, setOpen] = useState(false)
+
+
     const { loading, loaded, data } = useSelector(state => state.Addresses);
     const { creating, created, address, error } = useSelector(state => state.CreateAddress);
 
@@ -68,6 +74,10 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
         };
 
         setFormData(updateFormData);
+    };
+
+    const onOpen = () => {
+        setOpen(!open)
     };
 
     const handleToggleDefault = () => {
@@ -171,11 +181,31 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                                 checked={formData.default}
                             />
                             {created && (
-                                <Message
-                                success
-                                header="Succesfully created Address"
-                                content="Your address was saved"
-                                />
+                                
+                                <div className="modal">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Modal title</h5>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        {
+                                             <Message
+                                             success
+                                             header="Succesfully created Address"
+                                             content="Your address was saved"
+                                         />
+                                        }
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" className="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
                             )}
                             {error && (
                                 <Message
@@ -185,7 +215,7 @@ const AddressForm = ({ countries, formType, updatingAddress, userId, activeItem,
                                     
                                 />
                             )}
-                            <Form.Button disabled={creating} loading={creating} color="yellow">
+                            <Form.Button onClick={onOpen} disabled={creating} loading={creating} color="yellow">
                                     Uložiť
                             </Form.Button>
                         </Form>
@@ -223,7 +253,7 @@ const Profile = () => {
         return new Promise((res, reject) => {
             axios({
                 method: 'get',
-                url: 'http://127.0.0.1:8000/api/countriesList',
+                url: countryListUrl,
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('token')}`
                 },
@@ -241,7 +271,7 @@ const Profile = () => {
         return new Promise((res, reject) => {
             axios({
                 method: 'get',
-                url: 'http://127.0.0.1:8000/api/userID/',
+                url: userIdURL,
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('token')}`
                 },
@@ -322,7 +352,7 @@ const Profile = () => {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-                <Grid.Column width={6}>
+                <div className="col-sm">
                 <Menu pointing secondary vertical position='right'>
                     <Menu.Item
                     name='Fakturačna adresa'
@@ -335,8 +365,8 @@ const Profile = () => {
                     onClick={() => handleItemClick('shippingAddress')}
                     />
                 </Menu>
-                </Grid.Column>
-                <Grid.Column width={10}>
+                </div>
+                <div className="col-sm">
                     <Header>Profile</Header>
                     <Divider/>
                     <Card.Group>
@@ -406,7 +436,7 @@ const Profile = () => {
                             userId={userId} 
                             /> 
                         )}
-                </Grid.Column>
+                </div>
             </Grid.Row>
         </Grid>
     )

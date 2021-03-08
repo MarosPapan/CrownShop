@@ -28,6 +28,6 @@ urlpatterns = [
     path('remove-single-item-from-cart/<slug>', remove_single_item_from_cart, name="remove-single-item-from-cart"),
     path('payment/<payment_option>/', PaymentView.as_view(), name="payment"),
     path('request_refund/', RequestRefundView.as_view(), name='request_refund'),
-    path('current_user/', current_user),
+    path('current_user/', current_user),#
     path('users/', UserList.as_view())
 ]

@@ -62,14 +62,6 @@ const Nav = (props) => {
                         Obchod
                     </Link>
                 </Dropdown.Item>
-
-            
-                <Dropdown.Item>
-                    <Link to='/#'>
-                        <Icon name='clipboard' />
-                        O nás
-                    </Link>
-                </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
         </div>
