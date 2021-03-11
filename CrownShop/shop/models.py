@@ -45,21 +45,6 @@ class Item(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse("shop:ItemDetailView", kwargs={
-        'slug': self.slug
-        })
-
-    def get_add_to_cart_url(self):
-        return reverse("shop:add_to_cart", kwargs={
-        'slug': self.slug
-        })
-
-    def get_remove_from_cart_url(self):
-        return reverse("shop:remove_from_cart", kwargs={
-        'slug': self.slug
-        })
-
 class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=50) # size, color

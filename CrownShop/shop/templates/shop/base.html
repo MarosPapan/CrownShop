@@ -20,36 +20,6 @@
   <link href="{% static 'shop/css/style.min.css' %}" rel="stylesheet">
   <!-- Stripe link -->
   <script src="https://js.stripe.com/v3/"></script>
-
-  <style type="text/css">
-    html,
-    body,
-    header,
-    .carousel {
-      height: 60vh;
-    }
-
-    @media (max-width: 740px) {
-
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
-    }
-
-    @media (min-width: 800px) and (max-width: 850px) {
-
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
-    }
-
-  </style>
 </head>
 
 <body>
@@ -60,7 +30,7 @@
 
       <!-- Brand -->
       <a class="navbar-brand waves-effect" href="/">
-        <strong class="blue-text">Shop</strong>
+        <strong class="blue-text">CrownShop</strong>
       </a>
 
       <!-- Collapse -->
@@ -74,19 +44,14 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item">
-            <a class="nav-link waves-effect" href="/products">Products</a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link waves-effect" href="/checkout">Checkout</a>
-          </li> -->
+         
         </ul>
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
           {% if request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'shop:order-summary' %}">
+            <a class="nav-link waves-effect" href="#">
               <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_item_count }} </span>
               <i class="fas fa-shopping-cart"></i>
               <span class="clearfix d-none d-sm-inline-block"> Cart </span>
@@ -137,53 +102,6 @@
 
   {% block extra_body %}
   {% endblock %}
-
-  <!--Footer-->
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
-
-    <!--Call to action-->
-    <div class="pt-4">
-      <a class="btn btn-outline-white" href="" target="_blank"
-        role="button">Contact Us
-      </a>
-      <a class="btn btn-outline-white" href="" target="_blank" role="button">Give a response
-      </a>
-    </div>
-    <!--/.Call to action-->
-
-    <hr class="my-4">
-
-    <!-- Social icons -->
-    <div class="pb-4">
-      <!-- facebook -->
-      <a href="https://facebook.com/" target="_blank">
-        <i class="fab fa-facebook-f mr-3"></i>
-      </a>
-      <!-- Google -->
-      <a href="https://plus.google.com/" target="_blank">
-        <i class="fab fa-google-plus-g mr-3"></i>
-      </a>
-      <!-- Pinterest -->
-      <a href="https://pinterest.com" target="_blank">
-        <i class="fab fa-pinterest mr-3"></i>
-      </a>
-      <!-- Github -->
-      <a href="https://github.com/" target="_blank">
-        <i class="fab fa-github mr-3"></i>
-      </a>
-    </div>
-    <!-- Social icons -->
-
-    <!--Copyright-->
-    <div class="footer-copyright py-3">
-      © 2019 Copyright:
-      CrownShop
-    </div>
-    <!--/.Copyright-->
-
-  </footer>
-
-
   <!-- <script src="{% static 'shop/js/scripts.js' %}"></script> -->
 
   <script type="text/javascript" src="{% static 'shop/js/jquery-3.4.1.min.js' %}"></script>

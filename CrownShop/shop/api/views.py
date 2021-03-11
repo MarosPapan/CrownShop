@@ -195,7 +195,6 @@ class PaymentView(APIView):
 
             order.ordered = True
             order.payment = payment
-            # order.ref_code = create_ref_code()
             order.save()
 
             return Response(status=HTTP_200_OK)

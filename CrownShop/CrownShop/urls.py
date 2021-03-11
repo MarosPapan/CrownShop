@@ -1,9 +1,5 @@
 from django.conf import settings
 from rest_framework_jwt.views import obtain_jwt_token
-# from rest_framework_simplejwt.views import (
-#     TokenObtainPairView,
-#     TokenRefreshView,
-# )
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
@@ -17,8 +13,6 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),#
     path('api/', include('shop.api.urls')),
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),   
 ]
 
 if settings.DEBUG:
